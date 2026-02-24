@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dusty Coast Sodas — Review Funnel Demo</title>
+  <link href="https://fonts.cdnfonts.com/css/proxima-nova-2" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Proxima Nova', sans-serif;
+      background: #1a1a1a;
+      color: #fff;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .slide {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      padding: 60px 80px;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .slide.active { display: flex; }
+
+    /* Slide backgrounds */
+    .slide-title { background: #BB3739; }
+    .slide-dark { background: #1a1a1a; }
+    .slide-white { background: #fff; color: #1a1a1a; }
+    .slide-red { background: #BB3739; }
+
+    h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 24px; }
+    h2 { font-size: 2.8rem; font-weight: 700; line-height: 1.2; margin-bottom: 20px; }
+    h3 { font-size: 1.8rem; font-weight: 600; margin-bottom: 16px; }
+    p { font-size: 1.4rem; line-height: 1.6; opacity: 0.9; }
+    .subtitle { font-size: 1.6rem; opacity: 0.8; font-weight: 400; }
+    .big-number { font-size: 6rem; font-weight: 800; line-height: 1; }
+    .stat-label { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; margin-top: 8px; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-top: 48px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+    }
+    .slide-white .stat-card {
+      background: #f5f5f5;
+    }
+
+    .flow-steps {
+      display: flex;
+      gap: 24px;
+      margin-top: 40px;
+      align-items: stretch;
+    }
+    .flow-step {
+      flex: 1;
+      background: rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      position: relative;
+    }
+    .slide-white .flow-step { background: #f5f5f5; }
+    .flow-step .step-num {
+      display: inline-block;
+      width: 40px; height: 40px;
+      background: #BB3739;
+      color: #fff;
+      border-radius: 50%;
+      line-height: 40px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+    }
+    .flow-step h3 { font-size: 1.3rem; margin-bottom: 8px; }
+    .flow-step p { font-size: 1rem; opacity: 0.7; }
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      font-size: 2rem;
+      opacity: 0.4;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .bullet-list { list-style: none; margin-top: 24px; }
+    .bullet-list li {
+      font-size: 1.3rem;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .slide-white .bullet-list li { border-color: rgba(0,0,0,0.08); }
+    .bullet-list li::before {
+      content: '→';
+      color: #BB3739;
+      font-weight: 700;
+      font-size: 1.4rem;
+    }
+
+    .logo-mark {
+      position: absolute;
+      bottom: 30px;
+      right: 40px;
+      opacity: 0.3;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    .slide-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 100;
+    }
+    .dot {
+      width: 10px; height: 10px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .dot.active { background: #BB3739; transform: scale(1.3); }
+    .slide-white ~ .slide-nav .dot { background: rgba(0,0,0,0.2); }
+
+    .tag {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+    .slide-white .tag { background: rgba(187,55,57,0.1); color: #BB3739; }
+
+    .comparison-table {
+      width: 100%;
+      margin-top: 32px;
+      border-collapse: collapse;
+    }
+    .comparison-table th, .comparison-table td {
+      padding: 16px 24px;
+      text-align: left;
+      font-size: 1.2rem;
+    }
+    .comparison-table th {
+      border-bottom: 2px solid rgba(255,255,255,0.2);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+    .comparison-table td { border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .slide-white .comparison-table th { border-color: rgba(0,0,0,0.15); }
+    .slide-white .comparison-table td { border-color: rgba(0,0,0,0.06); }
+    .highlight { color: #BB3739; font-weight: 700; }
+    .dim { opacity: 0.5; }
+
+    .cta-box {
+      background: rgba(255,255,255,0.1);
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      padding: 40px;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .cta-box h3 { font-size: 2rem; }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1: Title -->
+  <div class="slide slide-title active" id="slide-1">
+    <div>
+      <img src="images/dusty-coast-logo-white.png" alt="Dusty Coast Sodas" style="height: 80px; margin-bottom: 40px;">
+      <h1>Turn Happy Customers<br>Into 5-Star Reviews</h1>
+      <p class="subtitle">A smart review funnel built for Dusty Coast Sodas</p>
+    </div>
+    <div class="logo-mark">RESIDE RENTALS</div>
+  </div>
+
+  <!-- SLIDE 2: The Problem -->
+  <div class="slide slide-dark" id="slide-2">
+    <div class="tag">The Challenge</div>
+    <h2>Most happy customers never<br>leave a review.</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="big-number">72%</div>
+        <div class="stat-label">of customers will leave a review<br>when asked directly</div>
+      </div>
+      <div class="stat-card">
+        <div class="big-number">90%</div>
+        <div class="stat-label">of consumers read reviews<br>before visiting a business</div>
+      </div>
+      <div class="stat-card">
+        <div class="big-number" style="font-size: 3.5rem;">4.3★ <span class="dim" style="font-size: 1.5rem;">vs</span> 4.8★</div>
+        <div class="stat-label">Dusty Coast (35 reviews)<br>vs The Soda Shack</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: The Solution — How It Works -->
+  <div class="slide slide-white" id="slide-3">
+    <div class="tag">The Solution</div>
+    <h2>A simple link that drives Google reviews.</h2>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <h3>Customer gets a link</h3>
+        <p>QR code at the register, text, receipt, or social media</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-num">2</div>
+        <h3>They rate their visit</h3>
+        <p>Branded page with 1-5 star rating — takes 2 seconds</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-num">3</div>
+        <h3>Smart routing</h3>
+        <p><strong>4-5 stars →</strong> straight to Google review<br><strong>1-3 stars →</strong> private feedback form</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: Live Demo -->
+  <div class="slide slide-red" id="slide-4">
+    <div style="text-align: center;">
+      <div class="tag" style="background: rgba(255,255,255,0.2);">Live Demo</div>
+      <h1>Let's see it in action.</h1>
+      <p class="subtitle" style="max-width: 600px; margin: 0 auto;">Switch to the review page and walk through the experience as a customer would see it.</p>
+      <div style="margin-top: 40px; padding: 20px 40px; background: rgba(0,0,0,0.2); border-radius: 12px; display: inline-block;">
+        <p style="font-size: 1.1rem; opacity: 0.8;">→ Open the review page in a new tab</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: Why It Matters -->
+  <div class="slide slide-dark" id="slide-5">
+    <div class="tag">Why This Works</div>
+    <h2>More reviews = more customers.</h2>
+    <ul class="bullet-list">
+      <li>Happy customers go directly to Google — building your public rating</li>
+      <li>Unhappy customers come to you first — giving you a chance to fix it privately</li>
+      <li>Every negative review you prevent protects your brand</li>
+      <li>A QR code at the counter makes it effortless for every customer</li>
+      <li>Fully branded to Dusty Coast — looks like your site, not a third-party tool</li>
+    </ul>
+  </div>
+
+  <!-- SLIDE 6: Next Steps -->
+  <div class="slide slide-title" id="slide-6">
+    <div style="text-align: center;">
+      <img src="images/dusty-cactus-mascot.webp" alt="Dusty Coast Mascot" style="height: 200px; margin-bottom: 32px;">
+      <h1>Ready to collect<br>more 5-star reviews?</h1>
+      <p class="subtitle" style="max-width: 500px; margin: 16px auto 0;">Let's get this live for Dusty Coast.</p>
+    </div>
+  </div>
+
+  <!-- Navigation dots -->
+  <div class="slide-nav" id="nav"></div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const nav = document.getElementById('nav');
+    let current = 0;
+
+    // Build nav dots
+    slides.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.onclick = () => goTo(i);
+      nav.appendChild(dot);
+    });
+
+    function goTo(n) {
+      slides[current].classList.remove('active');
+      nav.children[current].classList.remove('active');
+      current = n;
+      slides[current].classList.add('active');
+      nav.children[current].classList.add('active');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        if (current < slides.length - 1) goTo(current + 1);
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+        e.preventDefault();
+        if (current > 0) goTo(current - 1);
+      }
+    });
+  </script>
+</body>
+</html>
