@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dusty Coast — Review Sticker</title>
+  <link href="https://fonts.cdnfonts.com/css/proxima-nova-2" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Proxima Nova', sans-serif;
+      background: #e5e5e5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px;
+    }
+
+    .print-hint {
+      margin-bottom: 24px;
+      color: #666;
+      font-size: 14px;
+      text-align: center;
+    }
+    .print-hint strong { color: #333; }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .print-hint { display: none; }
+      .sticker { box-shadow: none !important; }
+    }
+
+    .sticker {
+      width: 5in;
+      height: 7in;
+      background: #fff;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .sticker-header {
+      background: #BB3739;
+      padding: 28px 32px 20px;
+      text-align: center;
+      position: relative;
+    }
+    .sticker-header img {
+      height: 48px;
+    }
+
+    .sticker-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 32px;
+      text-align: center;
+    }
+
+    .free-drink {
+      background: #BB3739;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      padding: 8px 24px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    .headline {
+      font-size: 28px;
+      font-weight: 800;
+      color: #1a1a1a;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .subtext {
+      font-size: 15px;
+      color: #727171;
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+
+    .qr-wrapper {
+      background: #fff;
+      border: 3px solid #BB3739;
+      border-radius: 16px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+    .qr-wrapper img {
+      width: 180px;
+      height: 180px;
+      display: block;
+    }
+
+    .scan-text {
+      font-size: 14px;
+      font-weight: 700;
+      color: #BB3739;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+
+    .steps {
+      display: flex;
+      gap: 16px;
+      width: 100%;
+    }
+    .step {
+      flex: 1;
+      text-align: center;
+    }
+    .step-icon {
+      width: 36px;
+      height: 36px;
+      background: #BB3739;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      margin: 0 auto 6px;
+    }
+    .step-text {
+      font-size: 11px;
+      color: #727171;
+      line-height: 1.3;
+    }
+
+    .sticker-footer {
+      background: #f7f7f7;
+      padding: 14px 32px;
+      text-align: center;
+      border-top: 1px solid #eee;
+    }
+    .sticker-footer p {
+      font-size: 10px;
+      color: #999;
+      line-height: 1.4;
+    }
+
+    .stars-row {
+      color: #F7D116;
+      font-size: 32px;
+      margin-bottom: 4px;
+      letter-spacing: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="print-hint">
+    <strong>Print this sticker:</strong> Press Ctrl+P (or Cmd+P on Mac). Set paper size to 5"x7" or scale to fit.<br>
+    For vinyl stickers, save as PDF and send to your print shop.
+  </div>
+
+  <div class="sticker">
+    <div class="sticker-header">
+      <img src="images/dusty-coast-logo-white.png" alt="Dusty Coast Sodas">
+    </div>
+
+    <div class="sticker-body">
+      <div class="free-drink">Free Drink</div>
+      <div class="headline">Leave us a 5-star review<br>& get a drink on us!</div>
+      <div class="stars-row">★★★★★</div>
+      <p class="subtext">Scan the code below, rate your visit,<br>and show your review to redeem.</p>
+
+      <div class="qr-wrapper">
+        <img src="images/review-qr-code.png" alt="Scan to review">
+      </div>
+      <div class="scan-text">Scan to Review</div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon">1</div>
+          <div class="step-text">Scan the<br>QR code</div>
+        </div>
+        <div class="step">
+          <div class="step-icon">2</div>
+          <div class="step-text">Tap 5 stars<br>& write a review</div>
+        </div>
+        <div class="step">
+          <div class="step-icon">3</div>
+          <div class="step-text">Show your<br>review for a<br>free drink</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sticker-footer">
+      <p>One free standard drink per customer. Must show posted Google review at time of order.<br>7924 Slide Rd, Lubbock TX · dustycoast.com</p>
+    </div>
+  </div>
+</body>
+</html>
